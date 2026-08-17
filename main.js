@@ -1,9 +1,10 @@
-import { generateSkill } from "./generator.js?v=20260817_1328";
+import { generateSkill } from "./generator.js?v=20260817_1345";
 
 const raritySelect = document.querySelector("#rarity-select");
 const generateButton = document.querySelector("#generate-button");
 const copyButton = document.querySelector("#copy-button");
 const stockButton = document.querySelector("#stock-button");
+const batchGenerateButton = document.querySelector("#batch-generate-button");
 
 const resultCard = document.querySelector("#result-card");
 const rarityBadge = document.querySelector("#rarity-badge");
@@ -256,6 +257,32 @@ stockButton.addEventListener("click", () => {
   setTimeout(() => {
     stockButton.textContent = "ストック";
   }, 1000);
+});
+
+batchGenerateButton.addEventListener("click", () => {
+  const ok = window.confirm(
+    "現在のストックをすべて削除し、NORMAL・RARE・EPICを1つずつ生成してストックしますか？"
+  );
+
+  if (!ok) return;
+
+  const normalResult = generateSkill("normal");
+  const rareResult = generateSkill("rare");
+  const epicResult = generateSkill("epic");
+
+  stocks = [
+    createStockRecord(normalResult),
+    createStockRecord(rareResult),
+    createStockRecord(epicResult)
+  ];
+
+  saveStocks();
+  renderStocks();
+
+  batchGenerateButton.textContent = "生成しました！";
+  setTimeout(() => {
+    batchGenerateButton.textContent = "一括生成";
+  }, 1200);
 });
 
 clearStockButton.addEventListener("click", () => {

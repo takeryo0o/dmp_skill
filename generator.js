@@ -1,7 +1,7 @@
-import { conditions } from "./conditions.js?v=20260817_1328";
-import { normalSkills } from "./normalSkills.js?v=20260817_1328";
-import { rareSkills } from "./rareSkills.js?v=20260817_1328";
-import { epicSkills } from "./epicSkills.js?v=20260817_1328";
+import { conditions } from "./conditions.js?v=20260817_1345";
+import { normalSkills } from "./normalSkills.js?v=20260817_1345";
+import { rareSkills } from "./rareSkills.js?v=20260817_1345";
+import { epicSkills } from "./epicSkills.js?v=20260817_1345";
 
 const raritySettings = {
   normal: {

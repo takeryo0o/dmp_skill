@@ -62,6 +62,29 @@
         <button id="copy-button" class="secondary-button" type="button" disabled>
           結果をコピー
         </button>
+        <button id="stock-button" class="stock-button" type="button" disabled>
+          ストック
+        </button>
+      </div>
+    </section>
+
+    <section class="stock-section" aria-labelledby="stock-title">
+      <div class="stock-header">
+        <div>
+          <p class="eyebrow stock-eyebrow">SAVED SKILLS</p>
+          <h2 id="stock-title">能力ストック <span id="stock-count">0</span></h2>
+        </div>
+        <button id="clear-stock-button" class="danger-button" type="button">
+          全て削除
+        </button>
+      </div>
+
+      <p class="stock-note">
+        ストックはこのブラウザに保存されます。ページを閉じたり更新しても残ります。
+      </p>
+
+      <div id="stock-list" class="stock-list">
+        <p id="stock-empty" class="stock-empty">まだ能力はストックされていません。</p>
       </div>
     </section>
 

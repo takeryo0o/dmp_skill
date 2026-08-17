@@ -42,6 +42,29 @@ function weightedRandom(items) {
   return items[items.length - 1];
 }
 
+// NORMAL / RARE の発動回数
+// 1回 5% / 2回 10% / 3回 25% / 4回 30% / 5回 25% / 6回 5%
+function randomActivationCount() {
+  const table = [
+    { value: 1, weight: 5 },
+    { value: 2, weight: 10 },
+    { value: 3, weight: 25 },
+    { value: 4, weight: 30 },
+    { value: 5, weight: 25 },
+    { value: 6, weight: 5 }
+  ];
+
+  const totalWeight = table.reduce((sum, item) => sum + item.weight, 0);
+  let roll = Math.random() * totalWeight;
+
+  for (const item of table) {
+    roll -= item.weight;
+    if (roll <= 0) return item.value;
+  }
+
+  return 4;
+}
+
 export function randomRarity() {
   const roll = Math.random() * 100;
 
@@ -81,7 +104,7 @@ export function generateSkill(requestedRarity = "random") {
   // NORMAL / RARE は条件・能力・回数を別々に抽選
   const condition = randomItem(conditions);
   const skill = weightedRandom(setting.skills);
-  const count = randomInt(setting.countMin, setting.countMax);
+  const count = randomActivationCount();
 
   return {
     rarity,

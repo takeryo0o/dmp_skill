@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="デュエル・マスターズ向けの非公式追加能力ジェネレーター" />
+  <title>追加能力ジェネレーター</title>
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <main class="page-shell">
+    <header class="hero">
+      <p class="eyebrow">FAN MADE TOOL</p>
+      <h1>追加能力ジェネレーター</h1>
+      <p class="lead">
+        条件 × 能力 × 使用回数をランダムに組み合わせて、追加能力を生成します。
+      </p>
+    </header>
+
+    <section class="generator-panel" aria-labelledby="generator-title">
+      <div class="control-row">
+        <label for="rarity-select">レアリティ</label>
+        <select id="rarity-select">
+          <option value="random">ランダム</option>
+          <option value="normal">NORMAL</option>
+          <option value="rare">RARE</option>
+          <option value="epic">EPIC</option>
+        </select>
+
+        <button id="generate-button" class="primary-button" type="button">
+          能力を生成
+        </button>
+      </div>
+
+      <article id="result-card" class="result-card rarity-normal" aria-live="polite">
+        <div class="card-top">
+          <span id="rarity-badge" class="rarity-badge">NORMAL</span>
+          <span id="skill-id" class="skill-id">#N000</span>
+        </div>
+
+        <div class="result-block">
+          <span class="result-label">条件</span>
+          <p id="condition-text">「能力を生成」を押してください。</p>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="result-block">
+          <span class="result-label">能力</span>
+          <p id="skill-text">ランダムな追加能力がここに表示されます。</p>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="count-area">
+          <span class="result-label">使用回数</span>
+          <strong id="count-text">-</strong>
+        </div>
+      </article>
+
+      <div class="secondary-actions">
+        <button id="copy-button" class="secondary-button" type="button" disabled>
+          結果をコピー
+        </button>
+      </div>
+    </section>
+
+    <section class="info-grid">
+      <div class="info-card">
+        <h2>NORMAL</h2>
+        <p>既存カードゲームにある一般的な範囲を意識した能力。</p>
+      </div>
+      <div class="info-card">
+        <h2>RARE</h2>
+        <p>通常より大きなアドバンテージを得やすい強力な能力。</p>
+      </div>
+      <div class="info-card">
+        <h2>EPIC</h2>
+        <p>通常のゲームにはないような特別ルール級の能力。基本1回限定。</p>
+      </div>
+    </section>
+
+    <footer>
+      <p>
+        非公式ファンメイドツールです。公式の商品・サービスとは関係ありません。
+      </p>
+    </footer>
+  </main>
+
+  <script type="module" src="./main.js"></script>
+</body>
+</html>

@@ -18,9 +18,7 @@ const raritySettings = {
   },
   epic: {
     label: "EPIC",
-    skills: epicSkills,
-    countMin: 1,
-    countMax: 1
+    skills: epicSkills
   }
 };
 
@@ -38,9 +36,7 @@ function weightedRandom(items) {
 
   for (const item of items) {
     roll -= item.weight ?? 1;
-    if (roll <= 0) {
-      return item;
-    }
+    if (roll <= 0) return item;
   }
 
   return items[items.length - 1];
@@ -49,7 +45,7 @@ function weightedRandom(items) {
 export function randomRarity() {
   const roll = Math.random() * 100;
 
-  // 初期値：NORMAL 75% / RARE 20% / EPIC 5%
+  // NORMAL 75% / RARE 20% / EPIC 5%
   if (roll < 75) return "normal";
   if (roll < 95) return "rare";
   return "epic";
@@ -65,12 +61,26 @@ export function generateSkill(requestedRarity = "random") {
     throw new Error(`未対応のレアリティです: ${rarity}`);
   }
 
-  const condition = randomItem(conditions);
-  const skill =
-    rarity === "epic"
-      ? randomItem(setting.skills)
-      : weightedRandom(setting.skills);
+  // EPICは旧ゲームの「能力＋専用条件」をセットで使用
+  if (rarity === "epic") {
+    const skill = randomItem(setting.skills);
 
+    return {
+      rarity,
+      rarityLabel: setting.label,
+      condition: {
+        id: `EPIC-${skill.id}`,
+        text: skill.condition
+      },
+      skill,
+      count: null,
+      countText: skill.countText
+    };
+  }
+
+  // NORMAL / RARE は条件・能力・回数を別々に抽選
+  const condition = randomItem(conditions);
+  const skill = weightedRandom(setting.skills);
   const count = randomInt(setting.countMin, setting.countMax);
 
   return {
@@ -78,6 +88,7 @@ export function generateSkill(requestedRarity = "random") {
     rarityLabel: setting.label,
     condition,
     skill,
-    count
+    count,
+    countText: `ゲーム中 ${count}回`
   };
 }

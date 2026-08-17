@@ -27,26 +27,17 @@ function renderResult(result) {
   skillId.textContent = `#${result.skill.id}`;
   conditionText.textContent = result.condition.text;
   skillText.textContent = result.skill.text;
-
-  countText.textContent =
-    result.rarity === "epic"
-      ? "ゲーム中 1回"
-      : `ゲーム中 ${result.count}回`;
+  countText.textContent = result.countText;
 
   copyButton.disabled = false;
 }
 
 function buildCopyText(result) {
-  const count =
-    result.rarity === "epic"
-      ? "ゲーム中1回"
-      : `ゲーム中${result.count}回`;
-
   return [
     `【${result.rarityLabel}】`,
     `条件：${result.condition.text}`,
     `能力：${result.skill.text}`,
-    `使用回数：${count}`
+    `使用回数：${result.countText}`
   ].join("\n");
 }
 

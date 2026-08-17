@@ -43,15 +43,12 @@ function weightedRandom(items) {
 }
 
 // NORMAL / RARE の発動回数
-// 1回 5% / 2回 10% / 3回 25% / 4回 30% / 5回 25% / 6回 5%
+// 1回 20% / 2回 35% / 3回 45%
 function randomActivationCount() {
   const table = [
-    { value: 1, weight: 5 },
-    { value: 2, weight: 10 },
-    { value: 3, weight: 25 },
-    { value: 4, weight: 30 },
-    { value: 5, weight: 25 },
-    { value: 6, weight: 5 }
+    { value: 1, weight: 20 },
+    { value: 2, weight: 35 },
+    { value: 3, weight: 45 }
   ];
 
   const totalWeight = table.reduce((sum, item) => sum + item.weight, 0);
@@ -59,10 +56,13 @@ function randomActivationCount() {
 
   for (const item of table) {
     roll -= item.weight;
-    if (roll <= 0) return item.value;
+
+    if (roll <= 0) {
+      return item.value;
+    }
   }
 
-  return 4;
+  return 3;
 }
 
 

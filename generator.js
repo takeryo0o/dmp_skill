@@ -1,7 +1,7 @@
-import { conditions } from "./conditions.js";
-import { normalSkills } from "./normalSkills.js";
-import { rareSkills } from "./rareSkills.js";
-import { epicSkills } from "./epicSkills.js";
+import { conditions } from "./conditions.js?v=20260817_1328";
+import { normalSkills } from "./normalSkills.js?v=20260817_1328";
+import { rareSkills } from "./rareSkills.js?v=20260817_1328";
+import { epicSkills } from "./epicSkills.js?v=20260817_1328";
 
 const raritySettings = {
   normal: {
@@ -65,6 +65,19 @@ function randomActivationCount() {
   return 4;
 }
 
+
+function getMaxUsesFromCountText(countText) {
+  if (!countText) return null;
+
+  const gameCountMatch = countText.match(/ゲーム中\s*(\d+)回/);
+  if (gameCountMatch) return Number(gameCountMatch[1]);
+
+  const simpleCountMatch = countText.match(/^(\d+)回$/);
+  if (simpleCountMatch) return Number(simpleCountMatch[1]);
+
+  return null;
+}
+
 export function randomRarity() {
   const roll = Math.random() * 100;
 
@@ -88,6 +101,8 @@ export function generateSkill(requestedRarity = "random") {
   if (rarity === "epic") {
     const skill = randomItem(setting.skills);
 
+    const maxUses = getMaxUsesFromCountText(skill.countText);
+
     return {
       rarity,
       rarityLabel: setting.label,
@@ -97,7 +112,8 @@ export function generateSkill(requestedRarity = "random") {
       },
       skill,
       count: null,
-      countText: skill.countText
+      countText: skill.countText,
+      maxUses
     };
   }
 
@@ -112,6 +128,7 @@ export function generateSkill(requestedRarity = "random") {
     condition,
     skill,
     count,
-    countText: `ゲーム中 ${count}回`
+    countText: `ゲーム中 ${count}回`,
+    maxUses: count
   };
 }

@@ -1,4 +1,4 @@
-import { generateSkill } from "./generator.js";
+import { generateSkill } from "./generator.js?v=20260817_1328";
 
 const raritySelect = document.querySelector("#rarity-select");
 const generateButton = document.querySelector("#generate-button");
@@ -22,17 +22,44 @@ const STORAGE_KEY = "dmp_skill2_ability_stock_v1";
 let currentResult = null;
 let stocks = loadStocks();
 
+stockButton.disabled = true;
+
 function loadStocks() {
   try {
     const saved = localStorage.getItem(STORAGE_KEY);
     if (!saved) return [];
 
     const parsed = JSON.parse(saved);
-    return Array.isArray(parsed) ? parsed : [];
+    if (!Array.isArray(parsed)) return [];
+
+    return parsed.map(normalizeStock);
   } catch (error) {
     console.warn("ストックの読み込みに失敗しました。", error);
     return [];
   }
+}
+
+function normalizeStock(stock) {
+  return {
+    ...stock,
+    usedCount: Number.isFinite(stock.usedCount) ? stock.usedCount : 0,
+    maxUses:
+      Number.isFinite(stock.maxUses)
+        ? stock.maxUses
+        : inferMaxUses(stock.countText)
+  };
+}
+
+function inferMaxUses(countText) {
+  if (!countText) return null;
+
+  const gameCountMatch = countText.match(/ゲーム中\s*(\d+)回/);
+  if (gameCountMatch) return Number(gameCountMatch[1]);
+
+  const simpleCountMatch = countText.match(/^(\d+)回$/);
+  if (simpleCountMatch) return Number(simpleCountMatch[1]);
+
+  return null;
 }
 
 function saveStocks() {
@@ -81,8 +108,38 @@ function createStockRecord(result) {
     skillId: result.skill.id,
     condition: result.condition.text,
     skill: result.skill.text,
-    countText: result.countText
+    countText: result.countText,
+    maxUses: Number.isFinite(result.maxUses) ? result.maxUses : null,
+    usedCount: 0
   };
+}
+
+function getUsageText(stock) {
+  if (Number.isFinite(stock.maxUses)) {
+    return `使用 ${stock.usedCount}/${stock.maxUses}`;
+  }
+
+  return `使用 ${stock.usedCount}回`;
+}
+
+function isUsageLimitReached(stock) {
+  return Number.isFinite(stock.maxUses) && stock.usedCount >= stock.maxUses;
+}
+
+function useSkill(stock) {
+  if (isUsageLimitReached(stock)) return;
+
+  const ok = window.confirm("スキルを使用しますか？");
+  if (!ok) return;
+
+  stock.usedCount += 1;
+
+  if (Number.isFinite(stock.maxUses)) {
+    stock.usedCount = Math.min(stock.usedCount, stock.maxUses);
+  }
+
+  saveStocks();
+  renderStocks();
 }
 
 function renderStocks() {
@@ -128,7 +185,28 @@ function renderStocks() {
     skill.className = "stock-skill";
     skill.textContent = stock.skill;
 
-    content.append(meta, condition, skill);
+    const usageArea = document.createElement("div");
+    usageArea.className = "stock-usage-area";
+
+    const usageText = document.createElement("strong");
+    usageText.className = "stock-usage-text";
+    usageText.textContent = getUsageText(stock);
+
+    const useButton = document.createElement("button");
+    useButton.className = "stock-use";
+    useButton.type = "button";
+
+    if (isUsageLimitReached(stock)) {
+      useButton.textContent = "使用済み";
+      useButton.disabled = true;
+      item.classList.add("usage-complete");
+    } else {
+      useButton.textContent = "使用する";
+      useButton.addEventListener("click", () => useSkill(stock));
+    }
+
+    usageArea.append(usageText, useButton);
+    content.append(meta, condition, skill, usageArea);
 
     const deleteButton = document.createElement("button");
     deleteButton.className = "stock-delete";

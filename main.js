@@ -1,4 +1,4 @@
-import { generateSkill } from "./generator.js?v=20260819_1455";
+import { generateSkill } from "./generator.js?v=20260819_1510";
 
 const raritySelect = document.querySelector("#rarity-select");
 const generateButton = document.querySelector("#generate-button");
@@ -56,7 +56,10 @@ function closeAppModal(result) {
     "modal-tone-default",
     "modal-tone-accent",
     "modal-tone-warning",
-    "modal-tone-danger"
+    "modal-tone-danger",
+    "modal-rarity-normal",
+    "modal-rarity-rare",
+    "modal-rarity-epic"
   );
 
   modalTextarea.hidden = true;
@@ -80,6 +83,7 @@ function showAppModal({
   cancelText = "キャンセル",
   showCancel = true,
   tone = "default",
+  rarity = null,
   textareaText = null
 }) {
   if (modalResolver) {
@@ -96,6 +100,10 @@ function showAppModal({
   modalCancelButton.hidden = !showCancel;
 
   modalPanel.classList.add(`modal-tone-${tone}`);
+
+  if (rarity) {
+    modalPanel.classList.add(`modal-rarity-${rarity}`);
+  }
 
   if (textareaText !== null) {
     modalTextarea.hidden = false;
@@ -275,11 +283,12 @@ async function useSkill(stock) {
     : `${stock.skillId} を使用しますか？\n\nこれまでの使用回数：${stock.usedCount}回`;
 
   const ok = await showConfirm({
-    title: "能力を使用",
+    title: `${stock.rarityLabel} 能力を使用`,
     message: usageMessage,
     confirmText: "使用する",
     cancelText: "キャンセル",
-    tone: "accent"
+    tone: "accent",
+    rarity: stock.rarity
   });
 
   if (!ok) return;

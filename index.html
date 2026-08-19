@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="デュエル・マスターズ向けの非公式追加能力ジェネレーター" />
   <title>追加能力ジェネレーター</title>
-  <link rel="stylesheet" href="./style.css?v=20260819_1535" />
+  <link rel="stylesheet" href="./style.css?v=20260819_1518" />
 </head>
 <body>
   <nav class="site-nav">
@@ -205,6 +205,41 @@
   </main>
 
 
+
+  <!-- スキル発動カットイン -->
+  <div
+    id="skill-cutin"
+    class="skill-cutin"
+    hidden
+    aria-hidden="true"
+  >
+    <div class="skill-cutin-backdrop"></div>
+
+    <div class="skill-cutin-light skill-cutin-light-a"></div>
+    <div class="skill-cutin-light skill-cutin-light-b"></div>
+    <div class="skill-cutin-light skill-cutin-light-c"></div>
+
+    <div class="skill-cutin-band">
+      <div class="skill-cutin-band-inner"></div>
+    </div>
+
+    <div class="skill-cutin-content">
+      <p id="skill-cutin-rarity" class="skill-cutin-rarity">
+        EPIC SKILL
+      </p>
+
+      <h2 id="skill-cutin-title" class="skill-cutin-title">
+        発動！
+      </h2>
+
+      <div id="skill-cutin-id" class="skill-cutin-id">
+        #E001
+      </div>
+
+      <p id="skill-cutin-name" class="skill-cutin-name"></p>
+    </div>
+  </div>
+
   <div id="app-modal" class="app-modal" hidden>
     <div id="app-modal-backdrop" class="app-modal-backdrop"></div>
 
@@ -258,6 +293,6 @@
     </section>
   </div>
 
-  <script type="module" src="./main.js?v=20260819_1510"></script>
+  <script type="module" src="./main.js?v=20260819_1518"></script>
 </body>
 </html>

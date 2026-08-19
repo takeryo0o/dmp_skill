@@ -1,4 +1,4 @@
-import { generateSkill } from "./generator.js?v=20260819_1510";
+import { generateSkill } from "./generator.js?v=20260819_1518";
 
 const raritySelect = document.querySelector("#rarity-select");
 const generateButton = document.querySelector("#generate-button");
@@ -30,6 +30,15 @@ const modalConfirmButton = document.querySelector("#app-modal-confirm");
 const modalCloseButton = document.querySelector("#app-modal-close");
 const modalBackdrop = document.querySelector("#app-modal-backdrop");
 
+// スキル発動カットイン
+const skillCutin = document.querySelector("#skill-cutin");
+const skillCutinRarity = document.querySelector("#skill-cutin-rarity");
+const skillCutinTitle = document.querySelector("#skill-cutin-title");
+const skillCutinId = document.querySelector("#skill-cutin-id");
+const skillCutinName = document.querySelector("#skill-cutin-name");
+
+let cutinTimer = null;
+
 const STORAGE_KEY = "dmp_skill2_ability_stock_v1";
 
 let currentResult = null;
@@ -41,6 +50,64 @@ let modalLastFocused = null;
 
 stockButton.disabled = true;
 
+
+
+// =========================================================
+// スキル発動カットイン
+// =========================================================
+
+function playSkillCutin(stock) {
+  if (!skillCutin) {
+    return Promise.resolve();
+  }
+
+  if (cutinTimer) {
+    clearTimeout(cutinTimer);
+    cutinTimer = null;
+  }
+
+  const rarity = stock.rarity ?? "normal";
+  const rarityLabel = stock.rarityLabel ?? rarity.toUpperCase();
+
+  skillCutin.classList.remove(
+    "cutin-normal",
+    "cutin-rare",
+    "cutin-epic",
+    "cutin-play"
+  );
+
+  skillCutin.classList.add(`cutin-${rarity}`);
+
+  skillCutinRarity.textContent = `${rarityLabel} SKILL`;
+  skillCutinTitle.textContent = "発動！";
+  skillCutinId.textContent = `#${stock.skillId}`;
+  skillCutinName.textContent = stock.skill ?? "";
+
+  skillCutin.hidden = false;
+  skillCutin.setAttribute("aria-hidden", "false");
+  document.body.classList.add("cutin-open");
+
+  // hidden解除後にアニメーションを確実に再スタート
+  void skillCutin.offsetWidth;
+  skillCutin.classList.add("cutin-play");
+
+  const duration = rarity === "epic"
+    ? 1650
+    : rarity === "rare"
+      ? 1350
+      : 1150;
+
+  return new Promise((resolve) => {
+    cutinTimer = window.setTimeout(() => {
+      skillCutin.classList.remove("cutin-play");
+      skillCutin.hidden = true;
+      skillCutin.setAttribute("aria-hidden", "true");
+      document.body.classList.remove("cutin-open");
+      cutinTimer = null;
+      resolve();
+    }, duration);
+  });
+}
 
 // =========================================================
 // 自作モーダル
@@ -299,7 +366,12 @@ async function useSkill(stock) {
     stock.usedCount = Math.min(stock.usedCount, stock.maxUses);
   }
 
+  // 使用を確定した時点で先に保存
   saveStocks();
+
+  // レアリティ別の発動カットイン
+  await playSkillCutin(stock);
+
   renderStocks();
 }
 

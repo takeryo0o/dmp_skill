@@ -1,4 +1,4 @@
-import { generateSkill } from "./generator.js?v=20260819_1120";
+import { generateSkill } from "./generator.js?v=20260819_1455";
 
 const raritySelect = document.querySelector("#rarity-select");
 const generateButton = document.querySelector("#generate-button");
@@ -19,12 +19,145 @@ const stockEmpty = document.querySelector("#stock-empty");
 const stockCount = document.querySelector("#stock-count");
 const clearStockButton = document.querySelector("#clear-stock-button");
 
+// 自作モーダル
+const appModal = document.querySelector("#app-modal");
+const modalPanel = document.querySelector("#app-modal-panel");
+const modalTitle = document.querySelector("#app-modal-title");
+const modalMessage = document.querySelector("#app-modal-message");
+const modalTextarea = document.querySelector("#app-modal-textarea");
+const modalCancelButton = document.querySelector("#app-modal-cancel");
+const modalConfirmButton = document.querySelector("#app-modal-confirm");
+const modalCloseButton = document.querySelector("#app-modal-close");
+const modalBackdrop = document.querySelector("#app-modal-backdrop");
+
 const STORAGE_KEY = "dmp_skill2_ability_stock_v1";
 
 let currentResult = null;
 let stocks = loadStocks();
 
+let modalResolver = null;
+let modalCanCancel = true;
+let modalLastFocused = null;
+
 stockButton.disabled = true;
+
+
+// =========================================================
+// 自作モーダル
+// =========================================================
+
+function closeAppModal(result) {
+  if (appModal.hidden) return;
+
+  appModal.hidden = true;
+  document.body.classList.remove("modal-open");
+
+  modalPanel.classList.remove(
+    "modal-tone-default",
+    "modal-tone-accent",
+    "modal-tone-warning",
+    "modal-tone-danger"
+  );
+
+  modalTextarea.hidden = true;
+  modalTextarea.value = "";
+
+  if (modalLastFocused instanceof HTMLElement) {
+    modalLastFocused.focus();
+  }
+
+  if (modalResolver) {
+    const resolve = modalResolver;
+    modalResolver = null;
+    resolve(result);
+  }
+}
+
+function showAppModal({
+  title,
+  message,
+  confirmText = "OK",
+  cancelText = "キャンセル",
+  showCancel = true,
+  tone = "default",
+  textareaText = null
+}) {
+  if (modalResolver) {
+    closeAppModal(false);
+  }
+
+  modalLastFocused = document.activeElement;
+  modalCanCancel = showCancel;
+
+  modalTitle.textContent = title;
+  modalMessage.textContent = message;
+  modalConfirmButton.textContent = confirmText;
+  modalCancelButton.textContent = cancelText;
+  modalCancelButton.hidden = !showCancel;
+
+  modalPanel.classList.add(`modal-tone-${tone}`);
+
+  if (textareaText !== null) {
+    modalTextarea.hidden = false;
+    modalTextarea.value = textareaText;
+  } else {
+    modalTextarea.hidden = true;
+    modalTextarea.value = "";
+  }
+
+  appModal.hidden = false;
+  document.body.classList.add("modal-open");
+
+  return new Promise((resolve) => {
+    modalResolver = resolve;
+
+    requestAnimationFrame(() => {
+      if (textareaText !== null) {
+        modalTextarea.focus();
+        modalTextarea.select();
+      } else {
+        modalConfirmButton.focus();
+      }
+    });
+  });
+}
+
+function showConfirm(options) {
+  return showAppModal({
+    ...options,
+    showCancel: true
+  });
+}
+
+function showMessage(options) {
+  return showAppModal({
+    ...options,
+    showCancel: false
+  });
+}
+
+modalConfirmButton.addEventListener("click", () => closeAppModal(true));
+modalCancelButton.addEventListener("click", () => closeAppModal(false));
+modalCloseButton.addEventListener("click", () => {
+  if (modalCanCancel) closeAppModal(false);
+});
+modalBackdrop.addEventListener("click", () => {
+  if (modalCanCancel) closeAppModal(false);
+});
+
+document.addEventListener("keydown", (event) => {
+  if (appModal.hidden) return;
+
+  if (event.key === "Escape" && modalCanCancel) {
+    event.preventDefault();
+    closeAppModal(false);
+  }
+});
+
+
+// =========================================================
+// ストック
+// =========================================================
 
 function loadStocks() {
   try {
@@ -132,10 +265,23 @@ function isUsageLimitReached(stock) {
   return Number.isFinite(stock.maxUses) && stock.usedCount >= stock.maxUses;
 }
 
-function useSkill(stock) {
+async function useSkill(stock) {
   if (isUsageLimitReached(stock)) return;
 
-  const ok = window.confirm("スキルを使用しますか？");
+  const nextCount = stock.usedCount + 1;
+
+  const usageMessage = Number.isFinite(stock.maxUses)
+    ? `${stock.skillId} を使用しますか？\n\n使用回数：${stock.usedCount}/${stock.maxUses} → ${nextCount}/${stock.maxUses}`
+    : `${stock.skillId} を使用しますか？\n\nこれまでの使用回数：${stock.usedCount}回`;
+
+  const ok = await showConfirm({
+    title: "能力を使用",
+    message: usageMessage,
+    confirmText: "使用する",
+    cancelText: "キャンセル",
+    tone: "accent"
+  });
+
   if (!ok) return;
 
   stock.usedCount += 1;
@@ -234,6 +380,11 @@ function renderStocks() {
   });
 }
 
+
+// =========================================================
+// ボタン処理
+// =========================================================
+
 generateButton.addEventListener("click", () => {
   const result = generateSkill(raritySelect.value);
   renderResult(result);
@@ -252,7 +403,13 @@ copyButton.addEventListener("click", async () => {
       copyButton.textContent = "結果をコピー";
     }, 1200);
   } catch {
-    window.prompt("下の内容をコピーしてください。", text);
+    await showMessage({
+      title: "コピーしてください",
+      message: "自動コピーが利用できなかったため、下の内容を選択してコピーしてください。",
+      confirmText: "閉じる",
+      tone: "default",
+      textareaText: text
+    });
   }
 });
 
@@ -269,10 +426,15 @@ stockButton.addEventListener("click", () => {
   }, 1000);
 });
 
-batchGenerateButton.addEventListener("click", () => {
-  const ok = window.confirm(
-    "現在のストックをすべて削除し、NORMAL・RARE・EPICを1つずつ生成してストックしますか？"
-  );
+batchGenerateButton.addEventListener("click", async () => {
+  const ok = await showConfirm({
+    title: "一括生成",
+    message:
+      "現在のストックをすべて削除し、NORMAL・RARE・EPICを1つずつ生成してストックします。\n\n現在のストック内容は失われます。",
+    confirmText: "生成する",
+    cancelText: "キャンセル",
+    tone: "warning"
+  });
 
   if (!ok) return;
 
@@ -295,10 +457,17 @@ batchGenerateButton.addEventListener("click", () => {
   }, 1200);
 });
 
-clearStockButton.addEventListener("click", () => {
+clearStockButton.addEventListener("click", async () => {
   if (stocks.length === 0) return;
 
-  const ok = window.confirm("ストックした能力をすべて削除しますか？");
+  const ok = await showConfirm({
+    title: "ストックを全削除",
+    message: `ストックしている ${stocks.length} 件の能力をすべて削除します。\n\nこの操作は元に戻せません。`,
+    confirmText: "すべて削除",
+    cancelText: "キャンセル",
+    tone: "danger"
+  });
+
   if (!ok) return;
 
   stocks = [];

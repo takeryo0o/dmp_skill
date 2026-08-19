@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="デュエル・マスターズ向けの非公式追加能力ジェネレーター" />
   <title>追加能力ジェネレーター</title>
-  <link rel="stylesheet" href="./style.css?v=20260819_1120" />
+  <link rel="stylesheet" href="./style.css?v=20260819_1455" />
 </head>
 <body>
   <nav class="site-nav">
@@ -122,8 +122,8 @@
         <p class="eyebrow">GAME RULES</p>
         <h2 id="rules-title">追加能力ルール</h2>
         <p class="section-lead">
-          このジェネレーターで決定した3つの追加能力を使って対戦するための基本ルールです。
-          個別能力の細かな裁定は、能力ID別Q&amp;Aにまとめます。
+          このジェネレーターで決定した追加能力を使って対戦するための基本ルールです。
+          通常の処理はデュエル・マスターズのルールに準拠し、追加能力独自の裁定はQ&amp;Aにまとめます。
         </p>
       </div>
 
@@ -139,32 +139,48 @@
         <article class="rule-card">
           <span class="rule-number">02</span>
           <div>
-            <h3>3能力をストックして開始</h3>
-            <p>NORMAL・RARE・EPICをそれぞれ1つずつ抽選し、合計3能力をストックした状態でデュエルを開始します。</p>
+            <h3>先攻・後攻を先に決定</h3>
+            <p>使用するデッキを決め、お互いに山札をシャッフルした後、先攻・後攻を決定します。その後に追加能力の抽選を行います。</p>
           </div>
         </article>
 
         <article class="rule-card">
           <span class="rule-number">03</span>
           <div>
-            <h3>抽選するタイミング</h3>
-            <p>使用するデッキを選択し、お互いに山札をシャッフルした後、シールドを置く前に能力抽選を行います。</p>
+            <h3>3能力を抽選して公開</h3>
+            <p>NORMAL・RARE・EPICをそれぞれ1つずつ抽選します。抽選された3能力はすべて相手に公開し、お互いが確認できる状態でゲームを開始します。</p>
           </div>
         </article>
 
         <article class="rule-card">
           <span class="rule-number">04</span>
           <div>
-            <h3>ルール解釈が分かれた場合</h3>
-            <p>第三者がいる場合は、その人の裁定を優先します。第三者がいない、または判断が決まらない場合は双方の見解を確認し、じゃんけんで勝った側の解釈をそのデュエルに限り採用します。</p>
+            <h3>開始時能力を適用</h3>
+            <p>能力抽選と公開の後、「ゲーム開始時」「デュエル開始時」「開始時」などの能力を適用し、その内容を反映して初期シールド・手札・マナなどを準備します。</p>
+          </div>
+        </article>
+
+        <article class="rule-card">
+          <span class="rule-number">05</span>
+          <div>
+            <h3>基本は公式ルールに準拠</h3>
+            <p>追加能力に特別な記載がない処理は、デュエル・マスターズの通常ルールに準拠します。追加能力独自の処理だけQ&amp;Aの裁定を使用します。</p>
+          </div>
+        </article>
+
+        <article class="rule-card">
+          <span class="rule-number">06</span>
+          <div>
+            <h3>解釈が決まらない場合</h3>
+            <p>第三者がいる場合はその人の裁定を採用します。決まらない場合は双方の見解を確認し、じゃんけんで勝った側の解釈をそのデュエルに限り採用します。</p>
           </div>
         </article>
 
         <article class="rule-card wide-rule">
-          <span class="rule-number">05</span>
+          <span class="rule-number">07</span>
           <div>
             <h3>不明な処理・サイトの不備</h3>
-            <p>能力の処理で分からない点や、文章・挙動の不備を見つけた場合は、SNS等から作者へ連絡して確認・指摘して構いません。後日Q&amp;Aや能力文へ反映します。</p>
+            <p>能力の処理で分からない点や文章・挙動の不備を見つけた場合は、SNS等から作者へ連絡して確認・指摘して構いません。必要に応じてQ&amp;Aや能力文へ反映します。</p>
           </div>
         </article>
       </div>
@@ -173,7 +189,7 @@
         <div class="rules-note-icon">?</div>
         <div>
           <h3>能力ごとの細かい処理は別ページへ</h3>
-          <p>N001 / R024 / E071 のように、能力IDを指定して個別の裁定・補足・処理例を追加できます。</p>
+          <p>N001 / R024 / E071 のように、能力IDから個別の裁定・補足を確認できます。</p>
         </div>
         <a class="qa-link-button" href="./qa.html">能力Q&amp;Aを見る</a>
       </div>
@@ -187,6 +203,60 @@
     </footer>
   </main>
 
-  <script type="module" src="./main.js?v=20260819_1120"></script>
+
+  <div id="app-modal" class="app-modal" hidden>
+    <div id="app-modal-backdrop" class="app-modal-backdrop"></div>
+
+    <section
+      id="app-modal-panel"
+      class="app-modal-panel"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="app-modal-title"
+      aria-describedby="app-modal-message"
+    >
+      <button
+        id="app-modal-close"
+        class="app-modal-close"
+        type="button"
+        aria-label="閉じる"
+      >
+        ×
+      </button>
+
+      <div class="app-modal-icon" aria-hidden="true">◆</div>
+
+      <h2 id="app-modal-title" class="app-modal-title">確認</h2>
+
+      <p id="app-modal-message" class="app-modal-message"></p>
+
+      <textarea
+        id="app-modal-textarea"
+        class="app-modal-textarea"
+        readonly
+        hidden
+      ></textarea>
+
+      <div class="app-modal-actions">
+        <button
+          id="app-modal-cancel"
+          class="app-modal-button modal-cancel-button"
+          type="button"
+        >
+          キャンセル
+        </button>
+
+        <button
+          id="app-modal-confirm"
+          class="app-modal-button modal-confirm-button"
+          type="button"
+        >
+          OK
+        </button>
+      </div>
+    </section>
+  </div>
+
+  <script type="module" src="./main.js?v=20260819_1455"></script>
 </body>
 </html>

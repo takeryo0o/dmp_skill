@@ -753,3 +753,261 @@ footer {
   .secondary-actions { grid-template-columns: 1fr 1fr; }
   .qa-current-button { width: 100%; }
 }
+
+
+/* =========================================================
+   Custom App Modal
+   ブラウザ標準 alert / confirm / prompt の代替
+   ========================================================= */
+
+body.modal-open {
+  overflow: hidden;
+}
+
+.app-modal[hidden] {
+  display: none !important;
+}
+
+.app-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+}
+
+.app-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(4, 5, 8, 0.74);
+  backdrop-filter: blur(8px);
+  animation: app-modal-fade-in 140ms ease-out;
+}
+
+.app-modal-panel {
+  position: relative;
+  z-index: 1;
+  width: min(460px, 100%);
+  padding: 26px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 22px;
+  background:
+    radial-gradient(circle at top right, rgba(126, 140, 255, 0.1), transparent 36%),
+    #12151d;
+  box-shadow:
+    0 30px 90px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  animation: app-modal-pop-in 160ms ease-out;
+}
+
+.app-modal-panel::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 3px;
+  background: #7e8cff;
+}
+
+.app-modal-panel.modal-tone-warning::before {
+  background: #ffc95f;
+}
+
+.app-modal-panel.modal-tone-danger::before {
+  background: #ff6b79;
+}
+
+.app-modal-panel.modal-tone-accent::before {
+  background: #79c8ff;
+}
+
+.app-modal-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #171a23;
+  color: var(--muted);
+  font-size: 1.35rem;
+  line-height: 1;
+}
+
+.app-modal-close:hover {
+  color: var(--text);
+  background: #20242f;
+}
+
+.app-modal-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  margin-bottom: 14px;
+  border-radius: 12px;
+  background: rgba(126, 140, 255, 0.13);
+  color: #aeb6ff;
+  font-size: 0.82rem;
+}
+
+.modal-tone-warning .app-modal-icon {
+  background: rgba(255, 201, 95, 0.12);
+  color: #ffd77f;
+}
+
+.modal-tone-danger .app-modal-icon {
+  background: rgba(255, 107, 121, 0.12);
+  color: #ff9da7;
+}
+
+.modal-tone-accent .app-modal-icon {
+  background: rgba(121, 200, 255, 0.12);
+  color: #9bd7ff;
+}
+
+.app-modal-title {
+  margin: 0;
+  padding-right: 38px;
+  font-size: 1.25rem;
+  letter-spacing: -0.02em;
+}
+
+.app-modal-message {
+  margin: 12px 0 0;
+  color: var(--muted);
+  white-space: pre-line;
+  line-height: 1.75;
+  font-size: 0.92rem;
+}
+
+.app-modal-textarea {
+  width: 100%;
+  min-height: 170px;
+  margin-top: 16px;
+  padding: 13px 14px;
+  resize: vertical;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  outline: none;
+  background: #0d1016;
+  color: var(--text);
+  font: inherit;
+  line-height: 1.6;
+}
+
+.app-modal-textarea:focus {
+  border-color: rgba(126, 140, 255, 0.72);
+  box-shadow: 0 0 0 3px rgba(126, 140, 255, 0.1);
+}
+
+.app-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 22px;
+}
+
+.app-modal-button {
+  min-height: 42px;
+  padding: 0 18px;
+  border-radius: 11px;
+  font-weight: 800;
+}
+
+.modal-cancel-button {
+  border: 1px solid var(--line);
+  background: #181b24;
+  color: var(--muted);
+}
+
+.modal-cancel-button:hover {
+  background: #20242f;
+  color: var(--text);
+}
+
+.modal-confirm-button {
+  border: 1px solid rgba(126, 140, 255, 0.5);
+  background: rgba(126, 140, 255, 0.18);
+  color: var(--text);
+}
+
+.modal-confirm-button:hover {
+  background: rgba(126, 140, 255, 0.28);
+}
+
+.modal-tone-warning .modal-confirm-button {
+  border-color: rgba(255, 201, 95, 0.52);
+  background: rgba(255, 201, 95, 0.15);
+}
+
+.modal-tone-warning .modal-confirm-button:hover {
+  background: rgba(255, 201, 95, 0.25);
+}
+
+.modal-tone-danger .modal-confirm-button {
+  border-color: rgba(255, 107, 121, 0.52);
+  background: rgba(255, 107, 121, 0.15);
+}
+
+.modal-tone-danger .modal-confirm-button:hover {
+  background: rgba(255, 107, 121, 0.25);
+}
+
+.modal-tone-accent .modal-confirm-button {
+  border-color: rgba(121, 200, 255, 0.5);
+  background: rgba(121, 200, 255, 0.14);
+}
+
+.modal-tone-accent .modal-confirm-button:hover {
+  background: rgba(121, 200, 255, 0.24);
+}
+
+@keyframes app-modal-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes app-modal-pop-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (max-width: 520px) {
+  .app-modal {
+    padding: 12px;
+    align-items: end;
+  }
+
+  .app-modal-panel {
+    width: 100%;
+    padding: 22px 18px 18px;
+    border-radius: 20px;
+  }
+
+  .app-modal-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .app-modal-button {
+    width: 100%;
+  }
+
+  .app-modal-actions .modal-confirm-button:only-child {
+    grid-column: 1 / -1;
+  }
+}

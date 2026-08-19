@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="追加能力ジェネレーター用 サイコロ・コイントス" />
+  <title>サイコロ / コイントス | 追加能力ジェネレーター</title>
+  <link rel="stylesheet" href="./style.css?v=20260819_1535" />
+</head>
+<body>
+  <nav class="site-nav">
+    <a class="nav-brand" href="./index.html">追加能力ジェネレーター</a>
+    <div class="nav-links">
+      <a class="nav-link" href="./index.html">生成</a>
+      <a class="nav-link" href="./qa.html">Q&amp;A</a>
+      <a class="nav-link active" href="./random.html">サイコロ</a>
+    </div>
+  </nav>
+
+  <main class="page-shell random-page">
+    <header class="hero random-hero">
+      <p class="eyebrow">QUICK RANDOM TOOLS</p>
+      <h1>サイコロ / コイントス</h1>
+      <p class="lead">
+        対戦中にサイコロやコインが必要になった時、その場ですぐに使えます。
+      </p>
+    </header>
+
+    <section class="random-tools-grid" aria-label="ランダムツール">
+      <article class="random-tool-card dice-tool-card">
+        <div class="random-tool-symbol" aria-hidden="true">⚄</div>
+        <p class="eyebrow">1D6</p>
+        <h2>サイコロ</h2>
+        <p>
+          1～6の中からランダムで1つを決定します。
+        </p>
+        <button id="dice-button" class="random-tool-button dice-button" type="button">
+          サイコロを振る
+        </button>
+      </article>
+
+      <article class="random-tool-card coin-tool-card">
+        <div class="random-tool-symbol" aria-hidden="true">●</div>
+        <p class="eyebrow">HEADS / TAILS</p>
+        <h2>コイントス</h2>
+        <p>
+          「表」「裏」のどちらかをランダムで決定します。
+        </p>
+        <button id="coin-button" class="random-tool-button coin-button" type="button">
+          コイントス
+        </button>
+      </article>
+    </section>
+
+    <section class="random-help">
+      <p>
+        結果はボタンを押すたびに新しく抽選されます。
+        対戦中の判定には、画面に表示された結果をそのまま使用してください。
+      </p>
+    </section>
+
+    <footer>
+      <p>非公式ファンメイドツールです。公式の商品・サービスとは関係ありません。</p>
+    </footer>
+  </main>
+
+  <div id="random-modal" class="app-modal" hidden>
+    <div id="random-modal-backdrop" class="app-modal-backdrop"></div>
+
+    <section
+      id="random-modal-panel"
+      class="app-modal-panel random-result-modal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="random-modal-title"
+    >
+      <button
+        id="random-modal-close"
+        class="app-modal-close"
+        type="button"
+        aria-label="閉じる"
+      >
+        ×
+      </button>
+
+      <div id="random-modal-icon" class="app-modal-icon random-result-icon" aria-hidden="true">◆</div>
+
+      <p id="random-modal-label" class="eyebrow random-result-label">RESULT</p>
+      <h2 id="random-modal-title" class="app-modal-title">結果</h2>
+
+      <div id="random-modal-result" class="random-result-value" aria-live="polite">-</div>
+      <p id="random-modal-subtext" class="random-result-subtext"></p>
+
+      <div class="app-modal-actions">
+        <button
+          id="random-modal-again"
+          class="app-modal-button modal-confirm-button"
+          type="button"
+        >
+          もう一度
+        </button>
+        <button
+          id="random-modal-ok"
+          class="app-modal-button random-close-button"
+          type="button"
+        >
+          閉じる
+        </button>
+      </div>
+    </section>
+  </div>
+
+  <script type="module" src="./random.js?v=20260819_1535"></script>
+</body>
+</html>

@@ -1127,3 +1127,256 @@ body.modal-open {
 .modal-rarity-epic .modal-confirm-button:hover {
   background: rgba(255, 201, 95, 0.30);
 }
+
+
+/* =========================================================
+   Dice / Coin page
+   ========================================================= */
+
+.random-page {
+  min-height: calc(100vh - 72px);
+}
+
+.random-hero {
+  margin-bottom: 34px;
+}
+
+.random-tools-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.random-tool-card {
+  position: relative;
+  overflow: hidden;
+  padding: 28px;
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  background: rgba(21, 24, 33, 0.92);
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.25);
+}
+
+.random-tool-card::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 3px;
+}
+
+.dice-tool-card::before {
+  background: linear-gradient(90deg, #79c8ff, #7e8cff);
+}
+
+.coin-tool-card::before {
+  background: linear-gradient(90deg, #ffc95f, #ff9f5f);
+}
+
+.random-tool-symbol {
+  display: grid;
+  place-items: center;
+  width: 68px;
+  height: 68px;
+  margin-bottom: 22px;
+  border-radius: 20px;
+  background: #0f1219;
+  border: 1px solid var(--line);
+  font-size: 2.15rem;
+  line-height: 1;
+}
+
+.dice-tool-card .random-tool-symbol {
+  color: var(--normal);
+  box-shadow: inset 0 0 28px rgba(121, 200, 255, 0.08);
+}
+
+.coin-tool-card .random-tool-symbol {
+  color: var(--epic);
+  box-shadow: inset 0 0 28px rgba(255, 201, 95, 0.08);
+}
+
+.random-tool-card h2 {
+  margin: 0;
+  font-size: 1.65rem;
+}
+
+.random-tool-card > p:not(.eyebrow) {
+  min-height: 3.5em;
+  margin: 12px 0 24px;
+  color: var(--muted);
+  line-height: 1.75;
+}
+
+.random-tool-button {
+  width: 100%;
+  min-height: 50px;
+  border-radius: 13px;
+  font-weight: 900;
+  letter-spacing: 0.02em;
+}
+
+.dice-button {
+  border: 1px solid rgba(121, 200, 255, 0.45);
+  background: rgba(121, 200, 255, 0.13);
+  color: #e9f8ff;
+}
+
+.dice-button:hover {
+  background: rgba(121, 200, 255, 0.22);
+}
+
+.coin-button {
+  border: 1px solid rgba(255, 201, 95, 0.48);
+  background: rgba(255, 201, 95, 0.13);
+  color: #fff4d5;
+}
+
+.coin-button:hover {
+  background: rgba(255, 201, 95, 0.22);
+}
+
+.random-help {
+  margin-top: 18px;
+  padding: 16px 18px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  color: var(--muted);
+  background: rgba(15, 18, 25, 0.7);
+}
+
+.random-help p {
+  margin: 0;
+  line-height: 1.75;
+  font-size: 0.9rem;
+}
+
+
+/* Result modal */
+
+.random-result-modal {
+  text-align: center;
+}
+
+.random-result-modal .app-modal-close {
+  text-align: center;
+}
+
+.random-result-icon {
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 1.15rem;
+}
+
+.random-result-label {
+  margin-top: 2px;
+}
+
+.random-result-modal .app-modal-title {
+  padding-right: 0;
+  text-align: center;
+}
+
+.random-result-value {
+  display: grid;
+  place-items: center;
+  min-height: 150px;
+  margin: 20px 0 6px;
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  background: #0c0f15;
+  font-size: clamp(4rem, 18vw, 7rem);
+  font-weight: 950;
+  line-height: 1;
+  letter-spacing: -0.06em;
+}
+
+.random-result-subtext {
+  margin: 10px 0 0;
+  color: var(--muted);
+  font-weight: 800;
+  letter-spacing: 0.12em;
+}
+
+.random-result-modal .app-modal-actions {
+  display: grid;
+  grid-template-columns: 1fr 0.72fr;
+}
+
+.random-close-button {
+  border: 1px solid var(--line);
+  background: #181b24;
+  color: var(--muted);
+}
+
+.random-close-button:hover {
+  background: #20242f;
+  color: var(--text);
+}
+
+.random-mode-dice {
+  border-color: rgba(121, 200, 255, 0.34);
+  background:
+    radial-gradient(circle at top right, rgba(121, 200, 255, 0.16), transparent 40%),
+    #12151d;
+}
+
+.random-mode-dice::before {
+  background: var(--normal);
+}
+
+.random-mode-dice .app-modal-icon,
+.random-mode-dice .app-modal-title,
+.random-mode-dice .random-result-value {
+  color: var(--normal);
+}
+
+.random-mode-dice .modal-confirm-button {
+  border-color: rgba(121, 200, 255, 0.58);
+  background: rgba(121, 200, 255, 0.16);
+  color: #eaf8ff;
+}
+
+.random-mode-dice .modal-confirm-button:hover {
+  background: rgba(121, 200, 255, 0.27);
+}
+
+.random-mode-coin {
+  border-color: rgba(255, 201, 95, 0.42);
+  background:
+    radial-gradient(circle at top right, rgba(255, 201, 95, 0.20), transparent 42%),
+    #15140f;
+}
+
+.random-mode-coin::before {
+  background: var(--epic);
+}
+
+.random-mode-coin .app-modal-icon,
+.random-mode-coin .app-modal-title,
+.random-mode-coin .random-result-value {
+  color: var(--epic);
+}
+
+.random-mode-coin .modal-confirm-button {
+  border-color: rgba(255, 201, 95, 0.68);
+  background: rgba(255, 201, 95, 0.18);
+  color: #fff5d8;
+}
+
+.random-mode-coin .modal-confirm-button:hover {
+  background: rgba(255, 201, 95, 0.30);
+}
+
+@media (max-width: 680px) {
+  .random-tools-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .random-tool-card > p:not(.eyebrow) {
+    min-height: 0;
+  }
+
+  .random-result-modal .app-modal-actions {
+    grid-template-columns: 1fr;
+  }
+}

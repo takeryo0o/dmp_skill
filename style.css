@@ -989,7 +989,7 @@ body.modal-open {
 @media (max-width: 520px) {
   .app-modal {
     padding: 12px;
-    align-items: end;
+    align-items: center;
   }
 
   .app-modal-panel {

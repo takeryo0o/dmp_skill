@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="追加能力ジェネレーター 能力処理Q&A" />
+  <title>能力Q&A | 追加能力ジェネレーター</title>
+  <link rel="stylesheet" href="./style.css?v=20260819_1120" />
+</head>
+<body>
+  <nav class="site-nav">
+    <a class="nav-brand" href="./index.html">追加能力ジェネレーター</a>
+    <div class="nav-links">
+      <a class="nav-link" href="./index.html">生成</a>
+      <a class="nav-link active" href="./qa.html">Q&amp;A</a>
+    </div>
+  </nav>
+
+  <main class="page-shell qa-page">
+    <header class="qa-hero">
+      <p class="eyebrow">RULES / FAQ</p>
+      <h1>能力処理 Q&amp;A</h1>
+      <p class="lead">基本ルールの補足と、N001・R001・E001など能力IDごとの個別裁定を確認できます。</p>
+    </header>
+
+    <section class="qa-section">
+      <div class="section-heading">
+        <p class="eyebrow">GENERAL</p>
+        <h2>全体ルール Q&amp;A</h2>
+      </div>
+      <div id="general-qa-list" class="qa-list"></div>
+    </section>
+
+    <section class="qa-section">
+      <div class="section-heading">
+        <p class="eyebrow">SKILL ID</p>
+        <h2>能力ID別 Q&amp;A</h2>
+        <p class="section-lead">能力ID・能力文・Q&amp;A本文から検索できます。Q&amp;A未登録の能力も表示できます。</p>
+      </div>
+
+      <div class="qa-toolbar">
+        <label class="search-box">
+          <span>検索</span>
+          <input id="qa-search" type="search" placeholder="例：N001 / ドロー / シールド" />
+        </label>
+        <label class="filter-box">
+          <span>レアリティ</span>
+          <select id="qa-rarity-filter">
+            <option value="all">すべて</option>
+            <option value="normal">NORMAL</option>
+            <option value="rare">RARE</option>
+            <option value="epic">EPIC</option>
+          </select>
+        </label>
+        <label class="filter-box">
+          <span>表示</span>
+          <select id="qa-status-filter">
+            <option value="registered">Q&amp;A登録済み</option>
+            <option value="all">すべての能力</option>
+            <option value="unregistered">未登録のみ</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="qa-count-row"><span id="qa-result-count">0件</span></div>
+      <div id="skill-qa-list" class="skill-qa-list"></div>
+    </section>
+
+    <footer><p>非公式ファンメイドツールです。公式の商品・サービスとは関係ありません。</p></footer>
+  </main>
+
+  <script type="module" src="./qa.js?v=20260819_1120"></script>
+</body>
+</html>

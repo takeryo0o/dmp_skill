@@ -5,9 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="デュエル・マスターズ向けの非公式追加能力ジェネレーター" />
   <title>追加能力ジェネレーター</title>
-  <link rel="stylesheet" href="./style.css?v=20260817_1345" />
+  <link rel="stylesheet" href="./style.css?v=20260819_1120" />
 </head>
 <body>
+  <nav class="site-nav">
+    <a class="nav-brand" href="./index.html">追加能力ジェネレーター</a>
+    <div class="nav-links">
+      <a class="nav-link active" href="./index.html">生成</a>
+      <a class="nav-link" href="./qa.html">Q&amp;A</a>
+    </div>
+  </nav>
   <main class="page-shell">
     <header class="hero">
       <p class="eyebrow">FAN MADE TOOL</p>
@@ -68,6 +75,9 @@
         <button id="batch-generate-button" class="batch-button" type="button">
           一括生成
         </button>
+        <a id="qa-current-button" class="qa-current-button disabled" href="./qa.html" aria-disabled="true">
+          この能力のQ&amp;A
+        </a>
       </div>
     </section>
 
@@ -106,6 +116,70 @@
       </div>
     </section>
 
+
+    <section class="rules-section" aria-labelledby="rules-title">
+      <div class="section-heading">
+        <p class="eyebrow">GAME RULES</p>
+        <h2 id="rules-title">追加能力ルール</h2>
+        <p class="section-lead">
+          このジェネレーターで決定した3つの追加能力を使って対戦するための基本ルールです。
+          個別能力の細かな裁定は、能力ID別Q&amp;Aにまとめます。
+        </p>
+      </div>
+
+      <div class="rules-grid">
+        <article class="rule-card">
+          <span class="rule-number">01</span>
+          <div>
+            <h3>能力抽選は原則1回</h3>
+            <p>1デュエルにつき能力抽選は1回だけ行います。能力そのものに「再抽選」と明記されている場合を除き、引き直しは行いません。</p>
+          </div>
+        </article>
+
+        <article class="rule-card">
+          <span class="rule-number">02</span>
+          <div>
+            <h3>3能力をストックして開始</h3>
+            <p>NORMAL・RARE・EPICをそれぞれ1つずつ抽選し、合計3能力をストックした状態でデュエルを開始します。</p>
+          </div>
+        </article>
+
+        <article class="rule-card">
+          <span class="rule-number">03</span>
+          <div>
+            <h3>抽選するタイミング</h3>
+            <p>使用するデッキを選択し、お互いに山札をシャッフルした後、シールドを置く前に能力抽選を行います。</p>
+          </div>
+        </article>
+
+        <article class="rule-card">
+          <span class="rule-number">04</span>
+          <div>
+            <h3>ルール解釈が分かれた場合</h3>
+            <p>第三者がいる場合は、その人の裁定を優先します。第三者がいない、または判断が決まらない場合は双方の見解を確認し、じゃんけんで勝った側の解釈をそのデュエルに限り採用します。</p>
+          </div>
+        </article>
+
+        <article class="rule-card wide-rule">
+          <span class="rule-number">05</span>
+          <div>
+            <h3>不明な処理・サイトの不備</h3>
+            <p>能力の処理で分からない点や、文章・挙動の不備を見つけた場合は、SNS等から作者へ連絡して確認・指摘して構いません。後日Q&amp;Aや能力文へ反映します。</p>
+          </div>
+        </article>
+      </div>
+
+      <div class="rules-note">
+        <div class="rules-note-icon">?</div>
+        <div>
+          <h3>能力ごとの細かい処理は別ページへ</h3>
+          <p>N001 / R024 / E071 のように、能力IDを指定して個別の裁定・補足・処理例を追加できます。</p>
+        </div>
+        <a class="qa-link-button" href="./qa.html">能力Q&amp;Aを見る</a>
+      </div>
+    </section>
+
+
     <footer>
       <p>
         非公式ファンメイドツールです。公式の商品・サービスとは関係ありません。
@@ -113,6 +187,6 @@
     </footer>
   </main>
 
-  <script type="module" src="./main.js?v=20260817_1345"></script>
+  <script type="module" src="./main.js?v=20260819_1120"></script>
 </body>
 </html>

@@ -1,10 +1,11 @@
-import { generateSkill } from "./generator.js?v=20260817_1345";
+import { generateSkill } from "./generator.js?v=20260819_1120";
 
 const raritySelect = document.querySelector("#rarity-select");
 const generateButton = document.querySelector("#generate-button");
 const copyButton = document.querySelector("#copy-button");
 const stockButton = document.querySelector("#stock-button");
 const batchGenerateButton = document.querySelector("#batch-generate-button");
+const qaCurrentButton = document.querySelector("#qa-current-button");
 
 const resultCard = document.querySelector("#result-card");
 const rarityBadge = document.querySelector("#rarity-badge");
@@ -89,6 +90,10 @@ function renderResult(result) {
 
   copyButton.disabled = false;
   stockButton.disabled = false;
+
+  qaCurrentButton.href = `./qa.html?id=${result.skill.id}`;
+  qaCurrentButton.classList.remove("disabled");
+  qaCurrentButton.setAttribute("aria-disabled", "false");
 }
 
 function buildCopyText(result) {
@@ -206,7 +211,12 @@ function renderStocks() {
       useButton.addEventListener("click", () => useSkill(stock));
     }
 
-    usageArea.append(usageText, useButton);
+    const qaLink = document.createElement("a");
+    qaLink.className = "stock-qa-link";
+    qaLink.href = `./qa.html?id=${stock.skillId}`;
+    qaLink.textContent = "Q&A";
+
+    usageArea.append(usageText, useButton, qaLink);
     content.append(meta, condition, skill, usageArea);
 
     const deleteButton = document.createElement("button");

@@ -1,7 +1,7 @@
-import { conditions } from "./conditions.js?v=20260817_1345";
-import { normalSkills } from "./normalSkills.js?v=20260817_1345";
-import { rareSkills } from "./rareSkills.js?v=20260817_1345";
-import { epicSkills } from "./epicSkills.js?v=20260817_1345";
+import { conditions } from "./conditions.js?v=20260819_1120";
+import { normalSkills } from "./normalSkills.js?v=20260819_1120";
+import { rareSkills } from "./rareSkills.js?v=20260819_1120";
+import { epicSkills } from "./epicSkills.js?v=20260819_1120";
 
 const raritySettings = {
   normal: {
@@ -56,10 +56,7 @@ function randomActivationCount() {
 
   for (const item of table) {
     roll -= item.weight;
-
-    if (roll <= 0) {
-      return item.value;
-    }
+    if (roll <= 0) return item.value;
   }
 
   return 3;
